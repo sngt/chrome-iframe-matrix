@@ -15,7 +15,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 window.addEventListener('load', () => {
   chrome.storage.sync.get(['sites', 'options'], (items) => {
-    ReactDOM.render(<Main sites={items.sites || SAMPLE_SITES} options={items.options} />, document.querySelector('#plural-sites-root'));
+    ReactDOM.render(<Main sites={items.sites || SAMPLE_SITES} options={items.options} />, document.querySelector('#matrix-root'));
   });
 });
 
