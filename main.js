@@ -4,7 +4,9 @@ const MAX_FRAME_NUM = 16;
 
 const SAMPLE_SITES = [
   {url: 'https://trends.google.com/trends/'},
-  {url: 'https://www.amazon.co.jp/gp/bestsellers'}
+  {url: 'http://www.bbc.com/news'},
+  {url: 'https://lifehacker.com/'},
+  {url: 'https://twitter.com/'}
 ];
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -13,7 +15,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 window.addEventListener('load', () => {
   chrome.storage.sync.get(['sites', 'options'], (items) => {
-    ReactDOM.render(<Main sites={items.sites} options={items.options} />, document.querySelector('#plural-sites-root'));
+    ReactDOM.render(<Main sites={items.sites || SAMPLE_SITES} options={items.options} />, document.querySelector('#plural-sites-root'));
   });
 });
 
