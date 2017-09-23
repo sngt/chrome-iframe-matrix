@@ -12,6 +12,10 @@ ul {
     z-index: 0;
 }
 
+body {
+    font-size: 0.75em;
+}
+
 #matrix-root {
     width: 100%;
     height: 100%;
@@ -37,16 +41,18 @@ ul {
         ul {
             li {
                 &.edit {
-                    width: 8%;
+                    width: 4%;
                     float: left;
-                    font-size: 2rem;
+                    font-size: 250%;
                     text-align: center;
 
                     .switch {
-                        opacity: 0.5;
+                        display: block;
+                        opacity: .5;
                         background-color: white;
 
                         &.on {
+                            opacity: 1;
                             background-color: red;
                         }
 
@@ -57,34 +63,10 @@ ul {
                         &:after {
                             content: "≡";
                             color: black;
+                            font-family: Helvetica, Arial, sans-serif;
                         }
                     }
                 }
-
-                &.options {
-                    float: right;
-                    width: 60%;
-                }
-            }
-        }
-
-        input[type="url"] {
-            width: 20rem;
-            height: 1rem;
-        }
-
-        button.add {
-            width: 3rem;
-            height: 1.5rem;
-            background-color: rgb(70,136,241);
-            border: none;
-            border-radius: 10%;
-            color: white;
-            font-weight: bold;
-            overflow: hidden;
-
-            &:hover {
-                background-color: rgb(63,123,228);
             }
         }
     }
@@ -141,7 +123,7 @@ ul {
             }
 
             iframe {
-                zoom: 0.48;
+                zoom: .48;
             }
         }
 
@@ -155,7 +137,7 @@ ul {
             }
 
             iframe {
-                zoom: 0.23;
+                zoom: .23;
             }
         }
 
@@ -169,7 +151,7 @@ ul {
             }
 
             iframe {
-                zoom: 0.23;
+                zoom: .23;
             }
         }
 
@@ -183,7 +165,39 @@ ul {
             }
 
             iframe {
-                zoom: 0.23;
+                zoom: .23;
+            }
+        }
+
+        form.control {
+            position: absolute;
+            height: 10%;
+            top: 91%;
+            background-color: white;
+
+            &.add {
+                > * {
+                    position: static;
+                    height: 60%;
+                    margin: 1% 0;
+                }
+                input[type="url"] {
+                    width: 80%;
+                    float: left;
+                }
+                button {
+                    width: 17%;
+                    margin-left: 1%;
+                    border: none;
+                    border-radius: 10%;
+                    font-weight: bold;
+                    color: white;
+                    background-color: rgb(70,136,241);
+
+                    &:hover {
+                        background-color: rgb(63,123,228);
+                    }
+                }
             }
         }
     }
@@ -194,18 +208,18 @@ ul {
         top: 0;
         left: 0;
         background-color: gray;
-        opacity: 0.6;
+        opacity: .6;
         text-align: center;
 
         &:after {
             position: relative;
             content: "Click to continue.";
             color: black;
-            font-size: 4rem;
+            font-size: 400%;
             top: 45%;
             margin: 0 30%;
             width: 40%;
-            opacity: 0.8;
+            opacity: .8;
         }
     }
 
