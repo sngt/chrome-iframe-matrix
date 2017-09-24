@@ -6,9 +6,9 @@ import replace from 'rollup-plugin-replace';
 
 export default {
     input : 'main.jsx',
-    output: {
-        file : 'target/main.min.js',
-        format : 'iife',
+    output : {
+        file: 'target/main.min.js',
+        format: 'iife'
     },
     plugins : [
         nodeResolve(),
