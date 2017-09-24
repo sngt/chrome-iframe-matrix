@@ -1,4 +1,5 @@
-'use strict';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 const MAX_FRAME_NUM = 16;
 

@@ -1,0 +1,25 @@
+{
+    "devDependencies": {
+        "babel-cli": "6.26.0",
+        "babel-preset-env": "1.6.0",
+        "babel-plugin-external-helpers": "^6.22.0",
+        "babel-plugin-transform-react-jsx": "^6.24.1",
+        "rollup": "^0.50.0",
+        "rollup-plugin-babel": "^3.0.2",
+        "rollup-plugin-commonjs": "^8.2.1",
+        "rollup-plugin-node-resolve": "^3.0.0",
+        "rollup-plugin-replace": "^2.0.0",
+        "rollup-plugin-uglify-es": "latest",
+        "rollup-watch": "^3.2.2"
+    },
+    "scripts": {
+        "build": "rollup -c",
+        "dev": "rollup -c -w"
+    },
+    "dependencies": {
+        "react": "^15.6.1",
+        "react-dom": "^15.6.1",
+        "react-dnd": "2.5.1",
+        "react-dnd-html5-backend": "2.5.1"
+    }
+}
