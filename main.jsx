@@ -123,20 +123,6 @@ class FrameContainer extends React.Component {
         this.setState({frameState: frameState})
     }
 
-    addSite(url) {
-        const sites = this.state.sites;
-        if (sites.length >= MAX_FRAME_NUM) {
-            return;
-        }
-        sites.push({url: url});
-        this.props.updateSites(sites);
-    }
-
-    removeSite(index) {
-        this.state.sites.splice(index, 1);
-        this.props.updateSites(this.state.sites);
-    }
-
     render() {
         switch (this.state.frameState) {
             case FrameStateType.STANDBY:
@@ -144,7 +130,7 @@ class FrameContainer extends React.Component {
             case FrameStateType.LOADED:
                 return <LoadedContainer sites={this.state.sites}/>;
             case FrameStateType.EDIT:
-                return <EditContainer sites={this.state.sites} addSite={(u) => this.addSite(u)} removeSite={(i) => this.removeSite(i)}/>;
+                return <EditContainer sites={this.state.sites} updateSites={this.props.updateSites}/>;
             default:
                 throw 'Unknown FrameStateType:' + this.state.frameState;
         }
@@ -173,35 +159,67 @@ const LoadedContainer = (props) => {
         </ol>
     );
 };
-const EditContainer = (props) => {
-    let frameNum = props.sites.length;
-    if (props.sites.length < MAX_FRAME_NUM) {
-        frameNum++;
+class EditContainer extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            sites: props.sites
+        };
     }
 
-    return (
-        <ol className={'container container-' + frameNum}>
-            {props.sites.map((site, index) => (
-                <li class="movable">
-                    <i data-key={index} className="remove" onClick={() => props.removeSite(index)}></i>
-                    <iframe src={site.url}></iframe>
-                    <form className="control"></form>
-                </li>
-            ))}
-            <li>
-                <iframe></iframe>
-                <SiteAdditionForm addSite={(u) => props.addSite(u)}/>
-            </li>
-        </ol>
-    );
-};
+    addSite(url) {
+        if ((url || '').match(/^http(s)?:\/\/.+/) === null) {
+            return;
+        }
+
+        const sites = this.state.sites;
+        if (sites.length >= MAX_FRAME_NUM) {
+            return;
+        }
+
+        sites.push({url: url});
+        this.props.updateSites(sites);
+    }
+
+    removeSite(index) {
+        this.state.sites.splice(index, 1);
+        this.props.updateSites(this.state.sites);
+    }
+
+    render() {
+        let frameNum = Math.min(this.state.sites.length + 1, MAX_FRAME_NUM);
+
+        return (
+            <ol className={'container container-' + frameNum}>
+                {this.state.sites.map((site, index) => (
+                    <li className="movable">
+                        <header>
+                            <i data-key={index} className="remove" onClick={() => this.removeSite(index)}></i>
+                        </header>
+                        <iframe src={site.url}></iframe>
+                        <form className="control"></form>
+                    </li>
+                ))}
+                {(() => {
+                    if (this.state.sites.length < MAX_FRAME_NUM) {
+                        return (
+                            <li>
+                                <div></div>
+                                <SiteAdditionForm addSite={(u) => this.addSite(u)}/>
+                            </li>
+                        )
+                    }
+                })()}
+            </ol>
+        );
+    }
+}
 
 class SiteAdditionForm extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            sites: props.sites,
             url: ''
         };
     }
@@ -211,21 +229,16 @@ class SiteAdditionForm extends React.Component {
         this.setState({url: event.target.value});
     }
 
-    addNewSite(event) {
+    addUrl(event) {
         event.preventDefault();
-        const url = this.state.url || '';
-        if (url.match(/^http(s)?:\/\/.+/) === null) {
-            return;
-        }
-
-        this.props.addSite(url);
+        this.props.addSite(this.state.url);
         this.setState({url: ''});
     }
 
     render() {
         return (
             <form action="#" className="control add" onSubmit={(e) => {
-                this.addNewSite(e)
+                this.addUrl(e)
             }}>
                 <input type="url" value={this.state.url} onChange={(e) => {
                     this.editUrl(e)

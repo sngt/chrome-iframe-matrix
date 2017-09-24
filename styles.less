@@ -88,23 +88,64 @@ body {
                 overflow: scroll;
             }
 
-            .remove {
+            &.movable header {
                 position: absolute;
-                left: 96%;
-                width: 1%;
-                height: 1%;
-                overflow: visible;
-                color: gray;
-                font-weight: bold;
-                z-index: 2;
+                height: 5%;
+                z-index:1;
+                background-color: white;
+                cursor: move;
 
-                &:after {
-                    content: "×";
+                .remove {
+                    position: absolute;
+                    left: 96%;
+                    width: 1%;
+                    height: 1%;
+                    overflow: visible;
+                    color: gray;
+                    font-weight: bold;
+                    z-index: 2;
+
+                    &:after {
+                        content: "×";
+                    }
+
+                    &:hover {
+                        color: black;
+                        cursor: default;
+                    }
                 }
+            }
 
-                &:hover {
-                    color: black;
-                    cursor: default;
+            form.control {
+                position: absolute;
+                height: 10%;
+                top: 91%;
+                z-index:1;
+                background-color: white;
+
+                &.add {
+                    > * {
+                        position: static;
+                        height: 60%;
+                        margin: 1% 0;
+                    }
+                    input[type="url"] {
+                        width: 80%;
+                        float: left;
+                    }
+                    button {
+                        width: 17%;
+                        margin-left: 1%;
+                        border: none;
+                        border-radius: 10%;
+                        font-weight: bold;
+                        color: white;
+                        background-color: rgb(70,136,241);
+
+                        &:hover {
+                            background-color: rgb(63,123,228);
+                        }
+                    }
                 }
             }
         }
@@ -166,38 +207,6 @@ body {
 
             iframe {
                 zoom: .23;
-            }
-        }
-
-        form.control {
-            position: absolute;
-            height: 10%;
-            top: 91%;
-            background-color: white;
-
-            &.add {
-                > * {
-                    position: static;
-                    height: 60%;
-                    margin: 1% 0;
-                }
-                input[type="url"] {
-                    width: 80%;
-                    float: left;
-                }
-                button {
-                    width: 17%;
-                    margin-left: 1%;
-                    border: none;
-                    border-radius: 10%;
-                    font-weight: bold;
-                    color: white;
-                    background-color: rgb(70,136,241);
-
-                    &:hover {
-                        background-color: rgb(63,123,228);
-                    }
-                }
             }
         }
     }
