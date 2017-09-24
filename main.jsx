@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {SortableContainer, SortableElement, arrayMove} from 'react-sortable-hoc';
 
 const MAX_FRAME_NUM = 16;
 
@@ -166,6 +167,7 @@ class EditContainer extends React.Component {
         this.state = {
             sites: props.sites
         };
+        this.onSortEnd = this.onSortEnd.bind(this);
     }
 
     addSite(url) {
@@ -187,34 +189,55 @@ class EditContainer extends React.Component {
         this.props.updateSites(this.state.sites);
     }
 
+    onSortEnd({oldIndex, newIndex}) {
+        const sites = arrayMove(this.state.sites, oldIndex, newIndex);
+        this.props.updateSites(sites);
+        this.setState({sites: sites});
+     };
+
     render() {
-        let frameNum = Math.min(this.state.sites.length + 1, MAX_FRAME_NUM);
+        // let frameNum = Math.min(this.state.sites.length + 1, MAX_FRAME_NUM);
 
         return (
-            <ol className={'container container-' + frameNum}>
-                {this.state.sites.map((site, index) => (
-                    <li className="movable">
-                        <header>
-                            <i data-key={index} className="remove" onClick={() => this.removeSite(index)}></i>
-                        </header>
-                        <iframe src={site.url}></iframe>
-                        <form className="control"></form>
-                    </li>
-                ))}
-                {(() => {
-                    if (this.state.sites.length < MAX_FRAME_NUM) {
-                        return (
-                            <li>
-                                <div></div>
-                                <SiteAdditionForm addSite={(u) => this.addSite(u)}/>
-                            </li>
-                        )
-                    }
-                })()}
-            </ol>
+            // <ol className={'container container-' + frameNum}>
+            //     {this.state.sites.map((site, index) => (<EditFrame key={index} updateState={(o) => this.updateState(o)} items={this.state.sites} sortId={index} outline="list" childProps={[]} site={site} removeSite={(i) => this.removeSite(i)}/>))}
+            //     {(() => {
+            //         if (this.state.sites.length < MAX_FRAME_NUM) {
+            //             return (
+            //                 <li>
+            //                     <div></div>
+            //                     <SiteAdditionForm addSite={(u) => this.addSite(u)}/>
+            //                 </li>
+            //             )
+            //         }
+            //     })()}
+            // </ol>
+            <EditFrameList sites={this.state.sites} removeSite={(i) => this.removeSite(i)} onSortEnd={this.onSortEnd}/>
         );
     }
 }
+
+const EditFrameList = SortableContainer((props) => {
+    let frameNum = Math.min(props.sites.length + 1, MAX_FRAME_NUM);
+    return (
+        <ol className={'container container-' + frameNum}>
+            {props.sites.map((site, index) => (<EditFrame key={`item-${index}`} index={index} site={site} goAway={() => props.removeSite(index)}/>))}
+        </ol>
+    );
+});
+
+const EditFrame = SortableElement((props) => {
+    const {site, goAway} = props;
+    return (
+        <li className="movable">
+            <header>
+                <i className="remove" onClick={goAway}></i>
+            </header>
+            <iframe src={site.url}></iframe>
+            <form className="control"></form>
+        </li>
+    );
+});
 
 class SiteAdditionForm extends React.Component {
     constructor(props) {
